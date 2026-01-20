@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
+  
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-bg-base text-text-primary font-sans;
+  }
+}
+
+@layer utilities {
+  .border-default {
+    border-color: rgba(235, 213, 171, 0.15);
+  }
+}
