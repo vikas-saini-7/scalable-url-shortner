@@ -1,4 +1,5 @@
 const urlRepository = require('../repositories/urlRepository');
+const userRepository = require('../repositories/userRepository');
 const redis = require('../config/redis');
 const config = require('../config/env');
 const { encode } = require('../utils/base62');
@@ -9,13 +10,30 @@ const { AppError } = require('../middlewares/errorHandler');
  * Create a shortened URL
  * @param {string} longUrl - Original long URL
  * @param {string} userId - User ID
+ * @param {string} userEmail - User email
  * @param {Date|null} expiresAt - Optional expiration date
  * @returns {Object} Created URL with short code
  */
-async function createShortUrl(longUrl, userId, expiresAt = null) {
+async function createShortUrl(longUrl, userId, userEmail, expiresAt = null) {
   // Validate URL
   if (!isValidUrl(longUrl)) {
     throw new AppError('Invalid URL format', 400);
+  }
+  
+  // Ensure user exists (auto-create if they don't)
+  try {
+    let user = await userRepository.getUserById(userId);
+    if (!user) {
+      // Create user if they don't exist
+      user = await userRepository.findOrCreateUser({
+        id: userId,
+        email: userEmail,
+        name: userEmail.split('@')[0], // Use email username as name
+      });
+    }
+  } catch (err) {
+    console.error('Error ensuring user exists:', err);
+    throw new AppError('Failed to create user', 500);
   }
   
   // Create URL record (without short_code initially)
@@ -24,6 +42,7 @@ async function createShortUrl(longUrl, userId, expiresAt = null) {
     longUrl,
     expiresAt,
   });
+
   
   // Generate short code from auto-incremented ID
   const shortCode = encode(urlRecord.id);

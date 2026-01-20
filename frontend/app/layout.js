@@ -1,17 +1,20 @@
-import { Inter, Space_Grotesk } from 'next/font/google'
+import { Inter } from 'next/font/google'
+import localFont from 'next/font/local'
 import './globals.css'
 import { ToastProvider } from '@/components/ui/use-toast'
 import { Toaster } from '@/components/ui/toaster'
 import { SessionProvider } from '@/components/session-provider'
+import { DashboardLayout } from '@/components/dashboard-layout'
 
 const inter = Inter({ 
   subsets: ['latin'],
   variable: '--font-inter',
 })
 
-const spaceGrotesk = Space_Grotesk({ 
-  subsets: ['latin'],
-  variable: '--font-space-grotesk',
+const equipExtended = localFont({
+  src: '../assets/equip-extended.ttf',
+  variable: '--font-equip-extended',
+  display: 'swap',
 })
 
 export const metadata = {
@@ -21,11 +24,13 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
+    <html lang="en" className={`${inter.variable} ${equipExtended.variable}`}>
       <body>
         <SessionProvider>
           <ToastProvider>
-            {children}
+            <DashboardLayout>
+              {children}
+            </DashboardLayout>
             <Toaster />
           </ToastProvider>
         </SessionProvider>

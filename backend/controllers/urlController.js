@@ -8,6 +8,7 @@ async function shortenUrl(req, res, next) {
   try {
     const { longUrl, expiresAt } = req.body;
     const userId = req.user.id;
+    const userEmail = req.user.email;
     
     if (!longUrl) {
       return res.status(400).json({
@@ -19,6 +20,7 @@ async function shortenUrl(req, res, next) {
     const result = await urlService.createShortUrl(
       longUrl,
       userId,
+      userEmail,
       expiresAt ? new Date(expiresAt) : null
     );
     

@@ -3,7 +3,10 @@ const config = require('./env');
 
 const pool = new Pool({
   connectionString: config.database.url,
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+  // Only use SSL for remote databases (Neon, etc), not local Docker
+  ssl: config.database.url.includes('neon.tech') || config.database.url.includes('amazonaws.com') 
+    ? { rejectUnauthorized: false } 
+    : false,
 });
 
 pool.on('connect', () => {

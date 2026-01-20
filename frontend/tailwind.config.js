@@ -10,19 +10,19 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'bg-base': '#1B211A',
-        'bg-card': '#1F261E',
-        'primary': '#628141',
-        'primary-hover': '#6F9150',
-        'secondary': '#8BAE66',
-        'accent': '#EBD5AB',
-        'text-primary': '#EBD5AB',
-        'text-secondary': '#B9C7A3',
-        'text-muted': '#8F9B83',
+        'bg-base': '#000000',
+        'bg-card': '#101010ff',
+        'primary': '#ffffff', //00e87c
+        'primary-hover': '#d3d3d3ff',
+        'secondary': '#cacacaff',
+        'accent': '#da0000ff',
+        'text-primary': '#ffffff',
+        'text-secondary': '#7f7f7fff',
+        'text-muted': '#a3a3a3ff',
       },
       fontFamily: {
         sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
-        heading: ['var(--font-space-grotesk)', 'system-ui', 'sans-serif'],
+        heading: ['var(--font-equip-extended)', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
         lg: 'var(--radius)',
